@@ -3,16 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		CD938AE523DF4A4600EA9B2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD938AE423DF4A4600EA9B2C /* AppDelegate.swift */; };
 		CD938AE723DF4A4600EA9B2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD938AE623DF4A4600EA9B2C /* SceneDelegate.swift */; };
 		CD938AE923DF4A4600EA9B2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD938AE823DF4A4600EA9B2C /* ViewController.swift */; };
-		CD938AEC23DF4A4600EA9B2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD938AEA23DF4A4600EA9B2C /* Main.storyboard */; };
 		CD938AEE23DF4A4C00EA9B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD938AED23DF4A4C00EA9B2C /* Assets.xcassets */; };
 		CD938AF123DF4A4C00EA9B2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD938AEF23DF4A4C00EA9B2C /* LaunchScreen.storyboard */; };
+		CD938AFA23DF4AB200EA9B2C /* FlipBook in Frameworks */ = {isa = PBXBuildFile; productRef = CD938AF923DF4AB200EA9B2C /* FlipBook */; };
+		CD938AFC23DF4C3500EA9B2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD938AFB23DF4B0400EA9B2C /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +21,10 @@
 		CD938AE423DF4A4600EA9B2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD938AE623DF4A4600EA9B2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CD938AE823DF4A4600EA9B2C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CD938AEB23DF4A4600EA9B2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD938AED23DF4A4C00EA9B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD938AF023DF4A4C00EA9B2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD938AF223DF4A4C00EA9B2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD938AFB23DF4B0400EA9B2C /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD938AFA23DF4AB200EA9B2C /* FlipBook in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,8 +61,8 @@
 				CD938AE423DF4A4600EA9B2C /* AppDelegate.swift */,
 				CD938AE623DF4A4600EA9B2C /* SceneDelegate.swift */,
 				CD938AE823DF4A4600EA9B2C /* ViewController.swift */,
-				CD938AEA23DF4A4600EA9B2C /* Main.storyboard */,
 				CD938AED23DF4A4C00EA9B2C /* Assets.xcassets */,
+				CD938AFB23DF4B0400EA9B2C /* Main.storyboard */,
 				CD938AEF23DF4A4C00EA9B2C /* LaunchScreen.storyboard */,
 				CD938AF223DF4A4C00EA9B2C /* Info.plist */,
 			);
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = FlipBookExampleiOS;
+			packageProductDependencies = (
+				CD938AF923DF4AB200EA9B2C /* FlipBook */,
+			);
 			productName = FlipBookExampleiOS;
 			productReference = CD938AE123DF4A4600EA9B2C /* FlipBookExampleiOS.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = CD938AD823DF4A4600EA9B2C;
+			packageReferences = (
+				CD938AF823DF4AB200EA9B2C /* XCRemoteSwiftPackageReference "FlipBook" */,
+			);
 			productRefGroup = CD938AE223DF4A4600EA9B2C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,9 +133,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD938AFC23DF4C3500EA9B2C /* Main.storyboard in Resources */,
 				CD938AF123DF4A4C00EA9B2C /* LaunchScreen.storyboard in Resources */,
 				CD938AEE23DF4A4C00EA9B2C /* Assets.xcassets in Resources */,
-				CD938AEC23DF4A4600EA9B2C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +155,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CD938AEA23DF4A4600EA9B2C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CD938AEB23DF4A4600EA9B2C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CD938AEF23DF4A4C00EA9B2C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -336,6 +336,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CD938AF823DF4AB200EA9B2C /* XCRemoteSwiftPackageReference "FlipBook" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bgayman/FlipBook.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.16;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CD938AF923DF4AB200EA9B2C /* FlipBook */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD938AF823DF4AB200EA9B2C /* XCRemoteSwiftPackageReference "FlipBook" */;
+			productName = FlipBook;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CD938AD923DF4A4600EA9B2C /* Project object */;
 }
