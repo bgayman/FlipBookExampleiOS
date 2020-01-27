@@ -45,6 +45,7 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func record(_ sender: UIButton) {
+        sender.isEnabled = false
         startRecording()
         animateView()
     }
@@ -95,6 +96,7 @@ final class ViewController: UIViewController {
             }
             self?.progressView.isHidden = true
             self?.progressView.progress = 0.0
+            self?.recordButton.isEnabled = true
         })
     }
     

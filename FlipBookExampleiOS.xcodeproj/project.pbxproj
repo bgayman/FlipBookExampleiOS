@@ -342,7 +342,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bgayman/FlipBook.git";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = versionRange;
+				maximumVersion = 2.0.0;
 				minimumVersion = 0.2.16;
 			};
 		};
