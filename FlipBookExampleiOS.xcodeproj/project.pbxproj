@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD2B83BE23E4A26400899835 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B83BD23E4A26400899835 /* VideoViewController.swift */; };
+		CD2B83C023E4A2C000899835 /* LivePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B83BF23E4A2C000899835 /* LivePhotoViewController.swift */; };
+		CD2B83C223E4A36200899835 /* GIFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2B83C123E4A36200899835 /* GIFViewController.swift */; };
 		CD938AE523DF4A4600EA9B2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD938AE423DF4A4600EA9B2C /* AppDelegate.swift */; };
 		CD938AE723DF4A4600EA9B2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD938AE623DF4A4600EA9B2C /* SceneDelegate.swift */; };
 		CD938AE923DF4A4600EA9B2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD938AE823DF4A4600EA9B2C /* ViewController.swift */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD2B83BD23E4A26400899835 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		CD2B83BF23E4A2C000899835 /* LivePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePhotoViewController.swift; sourceTree = "<group>"; };
+		CD2B83C123E4A36200899835 /* GIFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFViewController.swift; sourceTree = "<group>"; };
 		CD938AE123DF4A4600EA9B2C /* FlipBookExampleiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlipBookExampleiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD938AE423DF4A4600EA9B2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD938AE623DF4A4600EA9B2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +67,9 @@
 				CD938AE423DF4A4600EA9B2C /* AppDelegate.swift */,
 				CD938AE623DF4A4600EA9B2C /* SceneDelegate.swift */,
 				CD938AE823DF4A4600EA9B2C /* ViewController.swift */,
+				CD2B83BD23E4A26400899835 /* VideoViewController.swift */,
+				CD2B83BF23E4A2C000899835 /* LivePhotoViewController.swift */,
+				CD2B83C123E4A36200899835 /* GIFViewController.swift */,
 				CD938AED23DF4A4C00EA9B2C /* Assets.xcassets */,
 				CD938AFB23DF4B0400EA9B2C /* Main.storyboard */,
 				CD938AEF23DF4A4C00EA9B2C /* LaunchScreen.storyboard */,
@@ -146,9 +155,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD2B83C023E4A2C000899835 /* LivePhotoViewController.swift in Sources */,
 				CD938AE923DF4A4600EA9B2C /* ViewController.swift in Sources */,
 				CD938AE523DF4A4600EA9B2C /* AppDelegate.swift in Sources */,
+				CD2B83BE23E4A26400899835 /* VideoViewController.swift in Sources */,
 				CD938AE723DF4A4600EA9B2C /* SceneDelegate.swift in Sources */,
+				CD2B83C223E4A36200899835 /* GIFViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

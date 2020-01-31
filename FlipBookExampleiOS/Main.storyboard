@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="FlipBookTestProj" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="FlipBookExampleiOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -19,9 +19,33 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
-                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a9o-k7-Vni">
-                                <rect key="frame" x="57" y="447" width="300" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-me-q2n">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f4H-k9-YCg">
+                                        <rect key="frame" x="37.666666666666657" y="256" width="300" height="300"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="f4H-k9-YCg" secondAttribute="height" multiplier="1:1" id="e2L-xE-xyk"/>
+                                            <constraint firstAttribute="width" constant="300" id="gv2-mn-KVH"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="f4H-k9-YCg" firstAttribute="centerY" secondItem="Fjm-me-q2n" secondAttribute="centerY" id="ERt-0A-Tbj"/>
+                                    <constraint firstItem="f4H-k9-YCg" firstAttribute="centerX" secondItem="Fjm-me-q2n" secondAttribute="centerX" id="mxG-Vi-uxe"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HKi-rc-jhU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a9o-k7-Vni">
+                                <rect key="frame" x="37.666666666666657" y="405" width="300" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="rw7-rw-ldt"/>
+                                </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ynq-XG-H4L">
                                 <rect key="frame" x="20" y="723" width="335" height="55"/>
@@ -39,19 +63,29 @@
                         <constraints>
                             <constraint firstItem="ynq-XG-H4L" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="bottom" constant="-10" id="7TN-0m-mqf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ynq-XG-H4L" secondAttribute="bottom" priority="999" id="8zj-JC-X3Q"/>
+                            <constraint firstItem="Fjm-me-q2n" firstAttribute="centerX" secondItem="Mgw-Lj-bzD" secondAttribute="centerX" id="9Hm-gB-Z5k"/>
+                            <constraint firstItem="a9o-k7-Vni" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OuQ-7x-QWN"/>
+                            <constraint firstItem="HKi-rc-jhU" firstAttribute="centerY" secondItem="Fjm-me-q2n" secondAttribute="centerY" id="R1C-Uh-AyC"/>
                             <constraint firstAttribute="trailing" secondItem="Mgw-Lj-bzD" secondAttribute="trailing" id="Rq9-z4-7LE"/>
+                            <constraint firstItem="HKi-rc-jhU" firstAttribute="width" secondItem="Fjm-me-q2n" secondAttribute="width" id="Xch-WG-jNe"/>
+                            <constraint firstItem="HKi-rc-jhU" firstAttribute="centerX" secondItem="Fjm-me-q2n" secondAttribute="centerX" id="bkF-CJ-gtT"/>
                             <constraint firstItem="Mgw-Lj-bzD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eIv-sE-N7b"/>
                             <constraint firstAttribute="bottom" secondItem="Mgw-Lj-bzD" secondAttribute="bottom" id="fDg-PQ-dmV"/>
                             <constraint firstItem="ynq-XG-H4L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="jWb-Hj-r4s"/>
+                            <constraint firstItem="HKi-rc-jhU" firstAttribute="height" secondItem="Fjm-me-q2n" secondAttribute="height" id="jwW-sf-YUM"/>
                             <constraint firstItem="Mgw-Lj-bzD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="oCn-sO-TnR"/>
+                            <constraint firstItem="Fjm-me-q2n" firstAttribute="width" secondItem="Mgw-Lj-bzD" secondAttribute="width" id="qsj-fB-V5M"/>
+                            <constraint firstItem="Fjm-me-q2n" firstAttribute="centerY" secondItem="Mgw-Lj-bzD" secondAttribute="centerY" id="rL8-BW-i8u"/>
+                            <constraint firstItem="a9o-k7-Vni" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="t3Q-X2-sMJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ynq-XG-H4L" secondAttribute="trailing" constant="20" id="x9S-gv-Lde"/>
+                            <constraint firstItem="Fjm-me-q2n" firstAttribute="height" secondItem="Mgw-Lj-bzD" secondAttribute="height" id="xd9-Gb-6fm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Qcg-0u-sQA">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="wLa-gi-8Cx">
-                            <rect key="frame" x="61" y="6" width="254" height="33"/>
+                            <rect key="frame" x="48" y="6" width="254" height="33"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Video"/>
@@ -62,9 +96,22 @@
                                 <action selector="updateSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="kWB-GO-ghh"/>
                             </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" id="1gA-aw-w5T">
+                            <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="9IF-C2-6cg">
+                                <rect key="frame" x="308" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="switchLayerAnimation:" destination="BYZ-38-t0r" eventType="valueChanged" id="TAF-zu-O1i"/>
+                                </connections>
+                            </switch>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cardView" destination="f4H-k9-YCg" id="fsB-Op-0h7"/>
                         <outlet property="containerView" destination="Mgw-Lj-bzD" id="iJw-Bv-gil"/>
+                        <outlet property="layerContainerView" destination="Fjm-me-q2n" id="5k3-aI-ztA"/>
+                        <outlet property="layerOverlayView" destination="HKi-rc-jhU" id="a01-lK-DaZ"/>
+                        <outlet property="layerSwitch" destination="9IF-C2-6cg" id="83j-G9-hbP"/>
                         <outlet property="progressView" destination="a9o-k7-Vni" id="q5w-dd-LZP"/>
                         <outlet property="recordButton" destination="ynq-XG-H4L" id="Yet-6n-k1T"/>
                         <outlet property="segmentControl" destination="wLa-gi-8Cx" id="hDz-4p-JOs"/>

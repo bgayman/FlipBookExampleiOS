@@ -8,8 +8,7 @@
 
 import UIKit
 import FlipBook
-import AVKit
-import PhotosUI
+import AVFoundation
 
 // MARK: - Constants -
 
@@ -19,11 +18,16 @@ let totalAnimationDuration: TimeInterval = 6.0
 
 final class ViewController: UIViewController {
     
+    
+    // MARK: - Types -
+
     enum Segment: Int {
         case video
         case livePhoto
         case gif
     }
+
+    // MARK: - Properties -
 
     var redView: UIView?
     let flipBook = FlipBook()
@@ -31,7 +35,21 @@ final class ViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet weak var layerSwitch: UISwitch!
+    @IBOutlet weak var layerContainerView: UIView!
+    @IBOutlet weak var cardView: UIView!
+    @IBOutlet weak var layerOverlayView: UIView!
     
+    var shouldCompositeLayerAnimation = false {
+        didSet {
+            containerView.isHidden = shouldCompositeLayerAnimation
+            layerContainerView.isHidden = !shouldCompositeLayerAnimation
+            layerOverlayView.isHidden = !shouldCompositeLayerAnimation
+        }
+    }
+    
+    // MARK: - Lifecycle -
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let redView = UIView(frame: CGRect(x: 50, y: 150, width: 100.0, height: 100.0))
@@ -42,8 +60,15 @@ final class ViewController: UIViewController {
         recordButton.layer.cornerRadius = 20.0
         recordButton.setTitleColor(.white, for: .normal)
         recordButton.backgroundColor = UIColor.systemRed
+        
+        cardView.layer.cornerRadius = 20.0
+        cardView.layer.shadowOpacity = 0.5
+        cardView.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
+        cardView.layer.shadowRadius = 5.0
     }
     
+    // MARK: - Actions -
+
     @IBAction func record(_ sender: UIButton) {
         sender.isEnabled = false
         startRecording()
@@ -67,199 +92,110 @@ final class ViewController: UIViewController {
         }
     }
     
+    @IBAction func switchLayerAnimation(_ sender: UISwitch) {
+        shouldCompositeLayerAnimation = sender.isOn
+    }
+    
+    // MARK: - Private Methods -
+
     private func startRecording() {
-        flipBook.startRecording(containerView, progress: { [weak self] (prog) in
-            self?.progressView.progress = Float(prog)
-        }, completion: { [weak self] result in
-            switch result {
-            case .success(let asset):
-                switch asset {
-                case .video(let url):
-                    let videoVC = VideoViewController()
-                    videoVC.videoURL = url
-                    self?.navigationController?.pushViewController(videoVC, animated: true)
-                case let .livePhoto(livePhoto, resources):
-                    let livePhotoVC = LivePhotoViewController()
-                    livePhotoVC.livePhoto = livePhoto
-                    livePhotoVC.resources = resources
-                    self?.navigationController?.pushViewController(livePhotoVC, animated: true)
-                case .gif(let url):
-                    let gifVC = GIFViewController()
-                    gifVC.imageURL = url
-                    self?.navigationController?.pushViewController(gifVC, animated: true)
-                }
-            case .failure(let error):
-                let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self?.present(alertController, animated: true)
-            }
-            self?.progressView.isHidden = true
-            self?.progressView.progress = 0.0
-            self?.recordButton.isEnabled = true
+        let sourceView: UIView = shouldCompositeLayerAnimation ? layerContainerView : containerView
+        let composition: (CALayer) -> Void = { [weak self] layer in
+            self?.animateLayer(in: layer, for: true)
+        }
+        flipBook.startRecording(sourceView,
+                                compositionAnimation: shouldCompositeLayerAnimation ? composition : nil ,
+                                progress: { [weak self] (prog) in
+                                    self?.progressView.progress = Float(prog)
+            },
+                                completion: { [weak self] result in
+                                    switch result {
+                                    case .success(let asset):
+                                        switch asset {
+                                        case .video(let url):
+                                            let videoVC = VideoViewController()
+                                            videoVC.videoURL = url
+                                            self?.navigationController?.pushViewController(videoVC, animated: true)
+                                        case let .livePhoto(livePhoto, resources):
+                                            let livePhotoVC = LivePhotoViewController()
+                                            livePhotoVC.livePhoto = livePhoto
+                                            livePhotoVC.resources = resources
+                                            self?.navigationController?.pushViewController(livePhotoVC, animated: true)
+                                        case .gif(let url):
+                                            let gifVC = GIFViewController()
+                                            gifVC.imageURL = url
+                                            self?.navigationController?.pushViewController(gifVC, animated: true)
+                                        }
+                                    case .failure(let error):
+                                        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                                        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                                        alertController.addAction(okAction)
+                                        self?.present(alertController, animated: true)
+                                    }
+                                    self?.progressView.isHidden = true
+                                    self?.progressView.progress = 0.0
+                                    self?.recordButton.isEnabled = true
         })
     }
     
     private func animateView() {
-        let frame = redView?.frame ?? .zero
-        UIView.animate(withDuration: totalAnimationDuration * 0.5, animations: {
-            self.redView?.frame = CGRect.init(x: 0.0, y: self.containerView.frame.maxY - self.containerView.bounds.width, width: self.containerView.bounds.width, height: self.containerView.bounds.width)
-        }, completion: { _ in
-            UIView.animate(withDuration: totalAnimationDuration * 0.5, animations: {
-                self.redView?.frame = frame
-            }, completion: { _ in
+        if shouldCompositeLayerAnimation {
+            animateLayer(in: layerOverlayView.layer, for: false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + totalAnimationDuration) {
                 self.flipBook.stop()
                 self.progressView.isHidden = false
+            }
+        } else {
+            let frame = redView?.frame ?? .zero
+            UIView.animate(withDuration: totalAnimationDuration * 0.5, animations: {
+                self.redView?.frame = CGRect.init(x: 0.0, y: self.containerView.frame.maxY - self.containerView.bounds.width, width: self.containerView.bounds.width, height: self.containerView.bounds.width)
+            }, completion: { _ in
+                UIView.animate(withDuration: totalAnimationDuration * 0.5, animations: {
+                    self.redView?.frame = frame
+                }, completion: { _ in
+                    self.flipBook.stop()
+                    self.progressView.isHidden = false
+                })
             })
-        })
-    }
-}
-
-// MARK: - VideoViewController -
-
-final class VideoViewController: UIViewController {
-    
-    var videoURL: URL?
-    
-    lazy private var avVC: AVPlayerViewController = AVPlayerViewController()
-    lazy private var shareBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        guard let url = videoURL else {
-            return
         }
-        let player = AVPlayer(url: url)
-        avVC.view.frame = view.safeAreaLayoutGuide.layoutFrame
-        avVC.player = player
-        addChild(avVC)
-        view.addSubview(avVC.view)
-        avVC.didMove(toParent: self)
-        navigationItem.rightBarButtonItem = shareBarButtonItem
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        avVC.view.frame = view.safeAreaLayoutGuide.layoutFrame
-    }
-    
-    @objc private func share(_ sender: UIBarButtonItem) {
-        guard let url = videoURL else {
-            return
-        }
-        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.barButtonItem = sender
-        present(activityViewController, animated: true)
-    }
-}
+    private func animateLayer(in layer: CALayer, for isForVideo: Bool) {
+        layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        let scale = isForVideo ? view.window?.screen.scale ?? 1.0 : 1.0
 
-// MARK: - LivePhotoViewController -
-
-final class LivePhotoViewController: UIViewController {
-    
-    let flipBookLivePhotoWriter = FlipBookLivePhotoWriter()
-    var livePhoto: PHLivePhoto?
-    var resources: LivePhotoResources?
-    private var livePhotoView: PHLivePhotoView?
-    
-    lazy private var shareBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Live Photo"
-        navigationItem.prompt = "Long press to view movie"
-        let livePhotoView = PHLivePhotoView(frame: view.bounds)
-        livePhotoView.backgroundColor = UIColor.systemBlue
-        self.livePhotoView = livePhotoView
-        self.livePhotoView?.livePhoto = livePhoto
-        view.addSubview(livePhotoView)
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = layer.bounds
+        gradientLayer.colors = [UIColor.systemBlue.cgColor, UIColor.systemRed.cgColor]
+        gradientLayer.isGeometryFlipped = isForVideo
         
-        navigationItem.rightBarButtonItem = shareBarButtonItem
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        livePhotoView?.frame = view.bounds
-    }
-    
-    @objc private func share(_ sender: UIBarButtonItem) {
-        guard let resources = self.resources else {
-            return
-        }
-        PHPhotoLibrary.requestAuthorization { [weak self] (status) in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch status {
-                case .notDetermined, .denied, .restricted:
-                    break
-                case .authorized:
-                    let alert = UIAlertController(title: "Save", message: "Save Live Photo to Photo Library", preferredStyle: .alert)
-                    let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
-                        self.flipBookLivePhotoWriter.saveToLibrary(resources) { (result) in
-                            switch result {
-                            case .success:
-                                print("Success")
-                            case .failure(let error):
-                                print(error)
-                            }
-                        }
-                    }
-                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                    alert.addAction(saveAction)
-                    alert.addAction(cancelAction)
-                    self.present(alert, animated: true)
-                @unknown default:
-                    break
-                }
-            }
-        }
-    }
-}
-
-// MARK: - GIFViewController -
-
-final class GIFViewController: UIViewController {
-    
-    var imageURL: URL?
-    private var imageView: UIImageView?
-    
-    lazy private var shareBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "GIF"
-        let imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode = .scaleAspectFit
-        self.imageView = imageView
-        view.addSubview(imageView)
-        guard let url = imageURL,
-              let gifData = try? Data(contentsOf: url),
-              let source =  CGImageSourceCreateWithData(gifData as CFData, nil) else { return }
-        var images = [UIImage]()
-        let imageCount = CGImageSourceGetCount(source)
-        for i in 0 ..< imageCount {
-            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
-                images.append(UIImage(cgImage: image))
-            }
-        }
-        imageView.animationImages = images
-        imageView.animationDuration = totalAnimationDuration
-        imageView.startAnimating()
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.frame = layer.bounds
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = UIColor.black.cgColor
+        shapeLayer.lineWidth = 10.0 * scale
+        shapeLayer.lineCap = .round
+        shapeLayer.lineJoin = .round
         
-        navigationItem.rightBarButtonItem = shareBarButtonItem
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        imageView?.frame = view.bounds
-    }
-    
-    @objc private func share(_ sender: UIBarButtonItem) {
-        guard let url = imageURL else {
-            return
+        let cardViewRect = layerContainerView.convert(cardView.bounds, from: cardView)
+        let insetRect = cardViewRect.insetBy(dx: 40.0, dy: 40.0)
+        let pathRect = CGRect(x: insetRect.origin.x * scale,
+                              y: insetRect.origin.y * scale,
+                              width: insetRect.size.width * scale,
+                              height: insetRect.size.height * scale)
+        let path = UIBezierPath(ovalIn: pathRect)
+        shapeLayer.path = path.cgPath
+        
+        gradientLayer.mask = shapeLayer
+        layer.addSublayer(gradientLayer)
+        
+        let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        strokeAnimation.duration = totalAnimationDuration
+        strokeAnimation.fromValue = 0.0
+        strokeAnimation.toValue = 1.0
+        if isForVideo {
+            strokeAnimation.beginTime = AVCoreAnimationBeginTimeAtZero
         }
-        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.barButtonItem = sender
-        present(activityViewController, animated: true)
+        shapeLayer.add(strokeAnimation, forKey:"strokeAnimation")
     }
 }
