@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FlipBook
 
 // MARK: - GIFViewController -
 
@@ -17,8 +18,17 @@ final class GIFViewController: UIViewController {
     var imageURL: URL?
     private var imageView: UIImageView?
     lazy private var shareBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share(_:)))
+    lazy private var gifWriter: FlipBookGIFWriter? = {
+        do {
+            var cachesDirectory: URL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            cachesDirectory.appendPathComponent("FlipBookGIF.gif")
+            return FlipBookGIFWriter(fileOutputURL: cachesDirectory)
+        } catch {
+            return nil
+        }
+    }()
     
-    // MARK: - Lifecycle
+    // MARK: - Lifecycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,17 +38,13 @@ final class GIFViewController: UIViewController {
         self.imageView = imageView
         view.addSubview(imageView)
         guard let url = imageURL,
-              let gifData = try? Data(contentsOf: url),
-              let source =  CGImageSourceCreateWithData(gifData as CFData, nil) else { return }
-        var images = [UIImage]()
-        let imageCount = CGImageSourceGetCount(source)
-        for i in 0 ..< imageCount {
-            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
-                images.append(UIImage(cgImage: image))
-            }
+              let gifWriter = self.gifWriter,
+              let images = gifWriter.makeImages(url),
+              let frameRate = gifWriter.makeFrameRate(url) else {
+                return
         }
         imageView.animationImages = images
-        imageView.animationDuration = totalAnimationDuration
+        imageView.animationDuration = Double(images.count) / Double(frameRate)
         imageView.startAnimating()
         
         navigationItem.rightBarButtonItem = shareBarButtonItem
